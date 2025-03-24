@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/testreact/static/css/main.f2c97501.css",
+    "main.js": "/testreact/static/js/main.1dd0a385.js",
+    "static/js/453.be052a10.chunk.js": "/testreact/static/js/453.be052a10.chunk.js",
+    "static/media/logo.svg": "/testreact/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/testreact/index.html",
+    "static/media/check-green-checkin.svg": "/testreact/static/media/check-green-checkin.113f164215561edf9328571c21585417.svg",
+    "main.f2c97501.css.map": "/testreact/static/css/main.f2c97501.css.map",
+    "main.1dd0a385.js.map": "/testreact/static/js/main.1dd0a385.js.map",
+    "453.be052a10.chunk.js.map": "/testreact/static/js/453.be052a10.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f2c97501.css",
+    "static/js/main.1dd0a385.js"
+  ]
+}
