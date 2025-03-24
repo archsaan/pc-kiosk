@@ -2,7 +2,7 @@
   "name": "pc-kiosk",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://archsaan.github.io/testreact",
+  "homepage": "https://archsaan.github.io/pc-kiosk",
   "dependencies": {
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
