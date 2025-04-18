@@ -8,7 +8,8 @@ const API = {
   VALIDATE_MEMBER_BOOKING: `${API_BASE_URL}/calendar/validate/memberbooking`,
   BOOK_MEMBER: `${API_BASE_URL}/calendar/book/member`,
   GET_CATEGORIES:`${API_BASE_URL}/space/get/categories`,
-  GET_DAY_SCHEDULE:`${API_BASE_URL}/calendar/get/dayschedule`
+  GET_DAY_SCHEDULE:`${API_BASE_URL}/calendar/get/dayschedule`,
+  CHECKIN_MEMBER:`${API_BASE_URL}/calendar/checkin/member`
  
 };
 

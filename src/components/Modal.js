@@ -5,7 +5,7 @@ import useImageUrl from '../hooks/useImageUrl';
 import Avatar from '../components/design/Avatar';
 import {API_BASE_URL} from '../config/constants';
 
-const Modal = ({ isOpen, members, onClose, onSelectMember, loading, loadMoreMembers,showMoreDisabled,searchLoading, 
+const Modal = ({ isOpen, members, onClose, onSelectMember, loading, loadMoreMembers,showMoreDisabled,searchLoading, bookingLoading,
   searchQuery, 
   setSearchQuery}) => {
   if (!isOpen) return null; 
@@ -22,7 +22,13 @@ const Modal = ({ isOpen, members, onClose, onSelectMember, loading, loadMoreMemb
 
   return (
     <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50"  onClick={onClose}>
-      <div className="bg-white p-6 rounded-lg max-w-4xl max-h-[80vh] w-full overflow-auto" onClick={(e) => e.stopPropagation()}>
+      {bookingLoading && (
+        <div onClick={(e) => e.stopPropagation()} className="absolute top-0 left-0 w-full h-full bg-white bg-opacity-60 z-50 flex items-center justify-center">
+         <div className="loader border-4 border-gray-300 border-t-[#e00000] rounded-full w-10 h-10 animate-spin"></div>
+        </div>
+      )}
+      <div className={`bg-white p-6 rounded-lg max-w-4xl max-h-[80vh] w-full overflow-auto relative ${bookingLoading ? 'pointer-events-none' : ''}`} onClick={(e) => e.stopPropagation()}>
+
         <div className="flex  w-full justify-end items-center">
           <button
             onClick={onClose}

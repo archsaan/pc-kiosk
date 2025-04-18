@@ -8,7 +8,6 @@ import { getFacilityId } from './utils/format';
 const ScheduleFetcher = () => {
   const [rooms, setRooms] = useState([]);
   const [selectedRoomId, setSelectedRoomId] = useState('1');
-  
   const [date, setDate] = useState("");
   const [schedule, setSchedule] = useState(null);
   const [error, setError] = useState('');
@@ -16,8 +15,6 @@ const ScheduleFetcher = () => {
   const [selectedClass, setSelectedClass] = useState('');
   const [loading, setLoading] = useState(false);
   const facilityId = getFacilityId()
-
- 
 
   useEffect(() => {
     
@@ -34,7 +31,6 @@ const ScheduleFetcher = () => {
           facility_id: facilityId,
         });
         if (response.data && response.data.categories) {
-          console.log(response.data.categories[0].room)
           setRooms(response.data.categories[0].room); // Set rooms to state
         }
       } catch (err) {
@@ -96,6 +92,8 @@ const ScheduleFetcher = () => {
     fetchSchedule(); // Refresh the schedule data after adding a member
   };
 
+
+
   const customStyles = {
     container: {
       maxWidth: '1200px', // For example, max-width of 1200px
@@ -143,12 +141,10 @@ const ScheduleFetcher = () => {
             ))}
           </div>
 
-
-
           {/* Display the result */}
           {error && <div className="text-red-500 mt-4 text-center">{error}</div>}
           {schedule && schedule.length > 0 && (
-            <ScheduleTabs schedule={schedule} onAddMember={handleAddMember} onTabChange={handleTimeTabChange}/>
+            <ScheduleTabs schedule={schedule} onAddMember={handleAddMember} onCheckinCountUpdated ={handleAddMember} onTabChange={handleTimeTabChange}/>
           )}
 
           {selectedRoomId && !loading && !error && schedule && schedule.length === 0 && (
