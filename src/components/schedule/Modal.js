@@ -1,9 +1,10 @@
 import React, { useState,useEffect } from "react";
-import { formatEmail } from "../utils/format";
+import { formatEmail } from "../../utils/format";
 import { FaSearch, FaTimes } from "react-icons/fa";
-import useImageUrl from '../hooks/useImageUrl';
-import Avatar from '../components/design/Avatar';
-import {API_BASE_URL} from '../config/constants';
+import useImageUrl from '../../hooks/useImageUrl';
+import Avatar from '../common/Avatar';
+import {API_BASE_URL} from '../../config/constants';
+import Loader from '../common/Loader';
 
 const Modal = ({ isOpen, members, onClose, onSelectMember, loading, loadMoreMembers,showMoreDisabled,searchLoading, bookingLoading,
   searchQuery, 
@@ -27,6 +28,7 @@ const Modal = ({ isOpen, members, onClose, onSelectMember, loading, loadMoreMemb
          <div className="loader border-4 border-gray-300 border-t-[#e00000] rounded-full w-10 h-10 animate-spin"></div>
         </div>
       )}
+      
       <div className={`bg-white p-6 rounded-lg max-w-4xl max-h-[80vh] w-full overflow-auto relative ${bookingLoading ? 'pointer-events-none' : ''}`} onClick={(e) => e.stopPropagation()}>
 
         <div className="flex  w-full justify-end items-center">

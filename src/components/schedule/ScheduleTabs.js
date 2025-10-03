@@ -1,14 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from 'axios';
-import { ReactComponent as Checked } from './assets/check-green-checkin.svg'
-import AddMember from './components/AddMember';
-import Avatar from './components/design/Avatar';
-import { API_BASE_URL } from './config/constants';
-import { toast } from 'react-toastify';
-import { formatEmail } from "./utils/format";
-import useImageUrl from './hooks/useImageUrl';
-import { getFacilityId, convertTo24Hour } from './utils/format';
 
+import  { useState, useEffect, useRef } from "react";
+import AddMember from './AddMember';
+import MemberCard from './MemberCard';
+import { getFacilityId, convertTo24Hour } from '../../utils/format';
+import ConfirmModal from '../common/ConfirmModal';
 
 const ScheduleTabs = ({ schedule, onAddMember, onTabChange, onCheckinCountUpdated }) => {
   // State to track the selected tab
@@ -113,22 +108,6 @@ const ScheduleTabs = ({ schedule, onAddMember, onTabChange, onCheckinCountUpdate
             </button>
           ))}
         </div>
-        {/* <div className="flex flex-wrap pb-2 px-4 gap-4">
-          {sortedTimeSlots.length > 0 &&
-            sortedTimeSlots.map((daySchedule, index) => (
-              <button
-                key={index}
-                onClick={() => handleTabChange(index, daySchedule.class_name)} // Change the selected tab
-                className={`text-left py-1 px-3 rounded-full hover:bg-[#e00000] hover:text-white ${
-                  selectedTab === index
-                    ? "bg-[#e00000] text-white"
-                    : "text-gray-700 bg-[#e0e1e2]"
-                }`}
-              >
-                {daySchedule?.start_time}
-              </button>
-            ))}
-        </div> */}
       </div>
 
       {/* Schedule Details */}
@@ -201,96 +180,14 @@ const ScheduleTabs = ({ schedule, onAddMember, onTabChange, onCheckinCountUpdate
         )}
       </div>
     </div>
+    
   );
+  
 };
 
 
-// MemberCard Component
-const MemberCard = ({ member, facilityId, calendarScheduleId, disciplineId, handleCheckInCount }) => {
-  const { firstname, lastname, email, checkedin, id, img_src, firsttimer } = member;
-  const [imageUrl, setImageUrl] = useState('');
-  const initials = `${firstname[0]}${lastname[0]}`;
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
 
-  const { getUrl } = useImageUrl(imageUrl);
-  useEffect(() => {
 
-    const configImageUrl = API_BASE_URL;
-    setImageUrl(configImageUrl);
-  }, []);
-
-  const handleCheckIn = async () => {
-    setLoading(true);
-    setError('');
-
-    const payload = {
-      facility_id: getFacilityId(), // This should be passed as a prop
-      calendar_schedule_id: calendarScheduleId, // This should be passed as a prop
-      member_id: id, // This is the member ID
-      discipline_id: disciplineId
-    };
-
-    try {
-      // Make the API call to check-in the member
-      const response = await axios.post('https://backend.profitconnect.co/crm/calendar/checkin/member', payload);
-
-      // Check if the response indicates success
-      if (response.data.return === true) {
-        toast.success(response.data.message);
-        // Optionally, update the member's check-in status locally
-        member.checkedin = 'Yes'; // Update the member's check-in status locally
-      } else {
-        // Handle error response (e.g., Invalid facility_id)
-        setError(response.data.message || 'Something went wrong');
-      }
-    } catch (error) {
-      setError('Failed to check-in. Please try again later.');
-    } finally {
-      setLoading(false);
-      handleCheckInCount()
-    }
-  };
-
-  return (
-    <div className="flex items-center w-full justify-between py-1 gap-2">
-      <div className="flex items-center ">
-        <Avatar img_src={getUrl(img_src)} initials={initials} />
-        {/* Member Details */}
-        <div >
-          <h5 className="text-lg font-semibold w-[170px] text-left">{firstname} {lastname}</h5>
-          <div className="text-xs text-left">{firsttimer == "Yes" ? 'First Timer' : ""}</div>
-        </div>
-
-        <div>
-        </div>
-
-      </div>
-      {/* Avatar */}
-      <div>
-        <p className="text-sm text-gray-600  no-underline">{formatEmail(email)}</p>
-      </div>
-
-      <div className="w-[170px] flex justify-center items-center">
-        {checkedin === 'Yes' ? (
-          <div className="text-green-500 font-semibold w-[96px] flex justify-center"><Checked width="40" height="40" /></div>
-        ) : (
-          <div>
-            <button
-              onClick={handleCheckIn}
-              className="border-solid border font-semibold border-[#e00000] hover:text-white py-2 px-4 rounded-md mt-2 text-[20px] hover:bg-[#e00000]"
-              disabled={loading}
-            >
-              {loading ? 'Checking in...' : 'Check-in'}
-            </button>
-            {error && <p className="text-red-500 mt-2">{error}</p>}
-          </div>
-        )}
-
-      </div>
-    </div>
-  );
-};
 
 
 export default ScheduleTabs;

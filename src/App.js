@@ -25,14 +25,14 @@ function App() {
          <Route path='/login' element={<Login />} /> 
        </Routes>
        <ToastContainer 
-        position="top-right"  // You can set the position of the toast (top-right, bottom-left, etc.)
-        autoClose={5000}      // Auto-close after 5 seconds
-        hideProgressBar={false}  // Optionally show or hide the progress bar
-        newestOnTop={true}    // Newest toast appears on top
-        closeOnClick={true}   // Close the toast when clicked
-        rtl={false}           // Set to true for right-to-left language
-        pauseOnFocusLoss={false} // Pause the toast when the window is blurred
-        draggable={true}      // Enable dragging the toast
+        position="top-right"  
+        autoClose={5000}      
+        hideProgressBar={false}  
+        newestOnTop={true}    
+        closeOnClick={true}  
+        rtl={false}          
+        pauseOnFocusLoss={false} 
+        draggable={true}     
       />
     </div>
   );

@@ -3,7 +3,7 @@ import ScheduleFetcher from './ScheduleFetcher';
 
  const Checkin = () => {
    return (
-     <div>
+     <div className='font-poppins'>
          <ScheduleFetcher />
      </div>
    )

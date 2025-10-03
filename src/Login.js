@@ -1,14 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect  } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import { AiOutlineEye, AiOutlineEyeInvisible,AiOutlineDown   } from 'react-icons/ai';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [facility, setFacility] = useState('');
-  const [loading, setLoading] = useState(false);  // State for loading indicator
+  const [loading, setLoading] = useState(false);  
+  const [showPassword, setShowPassword] = useState(false);
+  const [country, setCountry] = useState('');
+  const [facilityData, setFacilityData] = useState([]);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchFacilities = async () => {
+    
+      const response = {
+        facility: [
+          {
+            index: 1,
+            country: "UAE",
+            studios: [
+              { id: "1", name: "Reset Fitness JIP" },
+              { id: "2", name: "HQ Testing" }
+            ]
+          },
+          {
+            index: 2,
+            country: "UK",
+            studios: [
+              { id: "5", name: "Staff Testing" }
+            ]
+          }
+        ]
+      };
+      setFacilityData(response.facility);
+    };
+
+    fetchFacilities();
+  }, []);
+
+  // 🟢 Get filtered studios based on selected country
+  const availableStudios = facilityData.find(f => f.country === country)?.studios || [];
 
   const handleLogin = async () => {
     if (!facility) {
@@ -54,26 +90,53 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 font-poppins">
       <div className="w-full max-w-md p-8 bg-white rounded-lg shadow-lg">
         <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Login</h2>
 
         {/* Form */}
         <div className="space-y-4">
+           <div className='relative'>
+            <select
+              id="country"
+              value={country}
+              onChange={(e) => {
+                setCountry(e.target.value);
+                setFacility(''); 
+              }}
+              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+            >
+              <option value="">Select a Country</option>
+              {facilityData.map(item => (
+                <option key={item.country} value={item.country}>
+                  {item.country}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <AiOutlineDown  size={18} />
+            </div>
+          </div>
+
           {/* Facility Dropdown */}
-          <div>
-           
+          <div className='relative'>
             <select
               id="facility"
               value={facility}
               onChange={(e) => setFacility(e.target.value)}
-              className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full p-3 pr-8 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none"
+              disabled={!country}
             >
-              <option value="">Select a facility</option>
-              <option value="2">HQ Testing</option>
-              <option value="1">Reset JIP</option>
-            
+              <option value="">Select a Facility</option>
+              {availableStudios.map(studio => (
+                <option key={studio.id} value={studio.id}>
+                  {studio.name}
+                </option>
+              ))}
             </select>
+            <div className="pointer-events-none absolute inset-y-0 right-3 flex items-center">
+              <AiOutlineDown  size={18} />
+            </div>
           </div>
 
           {/* Username */}
@@ -90,16 +153,22 @@ const Login = () => {
           </div>
 
           {/* Password */}
-          <div>
+          <div className='relative'>
            
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               id="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Enter password"
               className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
+            <span
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-3 cursor-pointer text-gray-500"
+            >
+              {showPassword ? <AiOutlineEyeInvisible size={20} /> : <AiOutlineEye size={20} />}
+            </span>
           </div>
 
           {/* Login Button */}

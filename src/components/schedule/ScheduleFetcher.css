@@ -1,0 +1,28 @@
+.tab-clip {
+  --h: 50px;
+  --s: 20px;
+
+  height: var(--h);
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: pointer;
+
+  background: linear-gradient(60deg, #ffffff, #f5f5f5);
+  font-weight: 500;
+  color: black;
+  transition: all 0.3s ease-in-out;
+
+  clip-path: polygon(
+    var(--s) 0,
+    calc(100% - var(--s)) 0,
+    100% 100%,
+    0 100%
+  );
+
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+}
+

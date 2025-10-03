@@ -1,9 +1,11 @@
 
 import React, { useState, useEffect,useRef } from 'react';
 import axios from 'axios';
-import ScheduleTabs from './ScheduleTabs';
+import ScheduleTabs from './components/schedule/ScheduleTabs';
 import { API } from './config/constants';
 import { getFacilityId } from './utils/format';
+import "./components/schedule/ScheduleFetcher.css"
+import { useNavigate } from 'react-router-dom';
 
 const ScheduleFetcher = () => {
   const [rooms, setRooms] = useState([]);
@@ -40,6 +42,8 @@ const ScheduleFetcher = () => {
     fetchRooms();
   }, []);
 
+  const navigate = useNavigate();
+
   // Fetch schedule data when room is selected
   useEffect(() => {
     if (!selectedRoomId) return;
@@ -73,6 +77,11 @@ const ScheduleFetcher = () => {
     setSelectedIndex(selectedIndex)
   };
 
+  const handleLogout = () => {
+    localStorage.clear(); 
+    navigate('/login');   
+  };
+
   const handleAddMember = () => {
     const fetchSchedule = async () => {
       setLoading(true);
@@ -104,7 +113,7 @@ const ScheduleFetcher = () => {
     },
     button: {
       padding: '8px 30px',
-      // backgroundColor: 'white',
+      backgroundColor: 'white',
       borderRadius: '25px 25px 0 0',
       fontWeight: '500',
       fontSize: '14px',
@@ -117,11 +126,13 @@ const ScheduleFetcher = () => {
   return (
     <>
       
-        <div className="w-full bg-[#e00000] text-white py-5 pt-5  relative">
-          <div className="max-w-4xl mx-auto flex justify-between items-center relative mb-20 pl-4">
+        <div className="w-full bg-[#e00000] text-white py-5 pt-5 relative">
+          <div className="max-w-4xl mx-auto flex justify-between items-center relative mb-20 px-4 mt-[59px]">
             {schedule && schedule.length > 0 && schedule[selectedIndex] != null && (
-                 <div className="text-[36.56px] font-bold">{selectedClass} <span className="font-normal text-[22px]">({schedule[selectedIndex].start_time} - {schedule[selectedIndex].end_time})</span> </div>
+                 <div className="text-[36.56px] font-bold  min-w-[400px] text-left">{selectedClass} <span className="font-normal text-[22px]">({schedule[selectedIndex].start_time} - {schedule[selectedIndex].end_time})</span> </div>
             )}
+
+            <div onClick={handleLogout} className='font-normal text-[22px] items-end cursor-pointer absolute right-[36px]'>Logout</div>
              
           </div>
         </div>
@@ -133,8 +144,8 @@ const ScheduleFetcher = () => {
                 style={customStyles.button}
                 key={room.id}
                 onClick={() => handleTabClick(room.id)}
-                className={`px-4 py-2 text-lg font-medium focus:outline-none 
-                  ${selectedRoomId === room.id ? 'bg-white' : 'bg-[#e0e1e2] text-red '}`}
+                className={` px-4 py-2 text-lg font-medium focus:outline-none 
+                  ${selectedRoomId === room.id ? '!bg-white' : 'bg-[#e0e1e2] text-red '}`}
               >
                 {room.name}
               </button>
